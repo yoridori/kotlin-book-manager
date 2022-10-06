@@ -1,6 +1,6 @@
 package com.yoridori.book.manager.infrastructure.database.mapper.custom
 
-import com.yoridori.book.manager.infrastructure.database.record.custom.BookWithRental
+import com.yoridori.book.manager.infrastructure.database.record.custom.BookWithRentalRecord
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Result
 import org.apache.ibatis.annotations.Results
@@ -23,5 +23,5 @@ interface BookWithRentalMapper {
             Result(column="return_deadline", property="returnDeadline", jdbcType=JdbcType.TIMESTAMP)
         ]
     )
-    fun selectMany(selectStatement: SelectStatementProvider): List<BookWithRental>
+    fun selectMany(selectStatement: SelectStatementProvider): List<BookWithRentalRecord>
 }

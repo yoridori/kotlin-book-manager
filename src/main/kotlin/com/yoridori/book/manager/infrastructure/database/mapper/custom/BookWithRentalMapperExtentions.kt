@@ -9,7 +9,7 @@ import com.yoridori.book.manager.infrastructure.database.mapper.RentalDynamicSql
 import com.yoridori.book.manager.infrastructure.database.mapper.RentalDynamicSqlSupport.rentalDatetime
 import com.yoridori.book.manager.infrastructure.database.mapper.RentalDynamicSqlSupport.returnDeadline
 import com.yoridori.book.manager.infrastructure.database.mapper.RentalDynamicSqlSupport.userId
-import com.yoridori.book.manager.infrastructure.database.record.custom.BookWithRental
+import com.yoridori.book.manager.infrastructure.database.record.custom.BookWithRentalRecord
 import org.mybatis.dynamic.sql.SqlBuilder
 import org.mybatis.dynamic.sql.render.RenderingStrategies
 
@@ -17,7 +17,7 @@ private val columnList = listOf(
     id, title, author, releaseDate, userId, rentalDatetime, returnDeadline
 )
 
-fun BookWithRentalMapper.select(): List<BookWithRental> {
+fun BookWithRentalMapper.select(): List<BookWithRentalRecord> {
     val selectStatement =
         SqlBuilder
             .select(columnList)

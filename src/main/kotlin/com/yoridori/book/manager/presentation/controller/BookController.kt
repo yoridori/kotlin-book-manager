@@ -2,9 +2,11 @@ package com.yoridori.book.manager.presentation.controller
 
 import com.yoridori.book.manager.application.service.BookService
 import com.yoridori.book.manager.presentation.form.BookInfo
+import com.yoridori.book.manager.presentation.form.GetBookDetailResponse
 import com.yoridori.book.manager.presentation.form.GetBookListResponse
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -22,5 +24,9 @@ class BookController(
         return GetBookListResponse(bookList)
     }
 
-
+    @GetMapping("/detail/{book_id}")
+    fun getDetail(@PathVariable("book_id") bookId: Long): GetBookDetailResponse {
+        val book = bookService.getDetail(bookId)
+        return GetBookDetailResponse(book)
+    }
 }

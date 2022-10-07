@@ -5,6 +5,7 @@ import com.yoridori.book.manager.domain.model.BookWithRental
 import com.yoridori.book.manager.domain.model.Rental
 import com.yoridori.book.manager.infrastructure.database.mapper.custom.BookWithRentalMapper
 import com.yoridori.book.manager.infrastructure.database.mapper.custom.select
+import com.yoridori.book.manager.infrastructure.database.mapper.custom.selectByPrimaryKey
 import com.yoridori.book.manager.infrastructure.database.record.custom.BookWithRentalRecord
 import org.springframework.stereotype.Repository
 
@@ -12,6 +13,10 @@ import org.springframework.stereotype.Repository
 class BookRepositoryImpl(private val bookWithRentalMapper: BookWithRentalMapper) : BookRepository {
     override fun findAllWithRental(): List<BookWithRental> {
         return bookWithRentalMapper.select().map { toModel(it) }
+    }
+
+    override fun findWithRental(id: Long): BookWithRental? {
+        return bookWithRentalMapper.selectByPrimaryKey(id)?.let { toModel(it) }
     }
 
     private fun toModel(record: BookWithRentalRecord): BookWithRental {

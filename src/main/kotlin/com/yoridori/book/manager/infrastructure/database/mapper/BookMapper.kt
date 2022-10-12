@@ -8,7 +8,7 @@ import com.yoridori.book.manager.infrastructure.database.mapper.BookDynamicSqlSu
 import com.yoridori.book.manager.infrastructure.database.mapper.BookDynamicSqlSupport.id
 import com.yoridori.book.manager.infrastructure.database.mapper.BookDynamicSqlSupport.releaseDate
 import com.yoridori.book.manager.infrastructure.database.mapper.BookDynamicSqlSupport.title
-import com.yoridori.book.manager.infrastructure.database.record.Book
+import com.yoridori.book.manager.infrastructure.database.record.BookRecord
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Result
 import org.apache.ibatis.annotations.ResultMap
@@ -36,7 +36,7 @@ import org.mybatis.dynamic.sql.util.mybatis3.CommonInsertMapper
 import org.mybatis.dynamic.sql.util.mybatis3.CommonUpdateMapper
 
 @Mapper
-interface BookMapper : CommonCountMapper, CommonDeleteMapper, CommonInsertMapper<Book>, CommonUpdateMapper {
+interface BookMapper : CommonCountMapper, CommonDeleteMapper, CommonInsertMapper<BookRecord>, CommonUpdateMapper {
     @SelectProvider(type=SqlProviderAdapter::class, method="select")
     @Results(id="BookResult", value = [
         Result(column="id", property="id", jdbcType=JdbcType.BIGINT, id=true),
@@ -44,11 +44,11 @@ interface BookMapper : CommonCountMapper, CommonDeleteMapper, CommonInsertMapper
         Result(column="author", property="author", jdbcType=JdbcType.VARCHAR),
         Result(column="release_date", property="releaseDate", jdbcType=JdbcType.DATE)
     ])
-    fun selectMany(selectStatement: SelectStatementProvider): List<Book>
+    fun selectMany(selectStatement: SelectStatementProvider): List<BookRecord>
 
     @SelectProvider(type=SqlProviderAdapter::class, method="select")
     @ResultMap("BookResult")
-    fun selectOne(selectStatement: SelectStatementProvider): Book?
+    fun selectOne(selectStatement: SelectStatementProvider): BookRecord?
 }
 
 fun BookMapper.count(completer: CountCompleter) =
@@ -62,7 +62,7 @@ fun BookMapper.deleteByPrimaryKey(id_: Long) =
         where { id isEqualTo id_ }
     }
 
-fun BookMapper.insert(row: Book) =
+fun BookMapper.insert(row: BookRecord) =
     insert(this::insert, row, book) {
         map(id) toProperty "id"
         map(title) toProperty "title"
@@ -70,7 +70,7 @@ fun BookMapper.insert(row: Book) =
         map(releaseDate) toProperty "releaseDate"
     }
 
-fun BookMapper.insertMultiple(records: Collection<Book>) =
+fun BookMapper.insertMultiple(records: Collection<BookRecord>) =
     insertMultiple(this::insertMultiple, records, book) {
         map(id) toProperty "id"
         map(title) toProperty "title"
@@ -78,10 +78,10 @@ fun BookMapper.insertMultiple(records: Collection<Book>) =
         map(releaseDate) toProperty "releaseDate"
     }
 
-fun BookMapper.insertMultiple(vararg records: Book) =
+fun BookMapper.insertMultiple(vararg records: BookRecord) =
     insertMultiple(records.toList())
 
-fun BookMapper.insertSelective(row: Book) =
+fun BookMapper.insertSelective(row: BookRecord) =
     insert(this::insert, row, book) {
         map(id).toPropertyWhenPresent("id", row::id)
         map(title).toPropertyWhenPresent("title", row::title)
@@ -108,7 +108,7 @@ fun BookMapper.selectByPrimaryKey(id_: Long) =
 fun BookMapper.update(completer: UpdateCompleter) =
     update(this::update, book, completer)
 
-fun KotlinUpdateBuilder.updateAllColumns(row: Book) =
+fun KotlinUpdateBuilder.updateAllColumns(row: BookRecord) =
     apply {
         set(id) equalToOrNull row::id
         set(title) equalToOrNull row::title
@@ -116,7 +116,7 @@ fun KotlinUpdateBuilder.updateAllColumns(row: Book) =
         set(releaseDate) equalToOrNull row::releaseDate
     }
 
-fun KotlinUpdateBuilder.updateSelectiveColumns(row: Book) =
+fun KotlinUpdateBuilder.updateSelectiveColumns(row: BookRecord) =
     apply {
         set(id) equalToWhenPresent row::id
         set(title) equalToWhenPresent row::title
@@ -124,7 +124,7 @@ fun KotlinUpdateBuilder.updateSelectiveColumns(row: Book) =
         set(releaseDate) equalToWhenPresent row::releaseDate
     }
 
-fun BookMapper.updateByPrimaryKey(row: Book) =
+fun BookMapper.updateByPrimaryKey(row: BookRecord) =
     update {
         set(title) equalToOrNull row::title
         set(author) equalToOrNull row::author
@@ -132,7 +132,7 @@ fun BookMapper.updateByPrimaryKey(row: Book) =
         where { id isEqualTo row.id!! }
     }
 
-fun BookMapper.updateByPrimaryKeySelective(row: Book) =
+fun BookMapper.updateByPrimaryKeySelective(row: BookRecord) =
     update {
         set(title) equalToWhenPresent row::title
         set(author) equalToWhenPresent row::author

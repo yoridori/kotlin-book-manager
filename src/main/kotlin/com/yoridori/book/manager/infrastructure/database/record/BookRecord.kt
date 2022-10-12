@@ -5,7 +5,7 @@ package com.yoridori.book.manager.infrastructure.database.record
 
 import java.time.LocalDate
 
-data class Book(
+data class BookRecord(
     var id: Long? = null,
     var title: String? = null,
     var author: String? = null,
